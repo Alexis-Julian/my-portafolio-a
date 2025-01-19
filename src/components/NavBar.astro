@@ -3,14 +3,16 @@
 >
    <div class="flex items-center uppercase font-bold text-white/80 mx-4 gap-2">
       <span class="material-symbols-outlined"> light_mode </span>
-      <div class="hover:text-white/90 cursor-pointer transition-all">
+      <div class="hover:text-white/90 cursor-pointer transition-all neonText">
          ALEXIS.DEV
       </div>
    </div>
    <ul
       class="flex justify-around items-center uppercase font-bold text-white/80"
    >
-      <li class="hover:text-white/90 cursor-pointer transition-all">Inicio</li>
+      <li class="hover:text-white/90 cursor-pointer transition-all neonText">
+         <p class="border-b">Inicio</p>
+      </li>
       <li class="hover:text-white/90 cursor-pointer transition-all">
          Proyectos
       </li>
@@ -19,3 +21,11 @@
       </li>
    </ul>
 </nav>
+<style>
+   .neonText {
+      color: #ffffffda;
+      text-shadow:
+         0 0 5px #fff,
+         0 0 11px #fff;
+   }
+</style>
