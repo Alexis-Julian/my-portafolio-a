@@ -1,0 +1,59 @@
+---
+import { Image } from 'astro:assets';
+import GithubSvg from '../svg/GithubSvg.astro';
+import GmailSvg from '../svg/GmailSvg.astro';
+import LinkedinSvg from '../svg/LinkedinSvg.astro';
+import ContactMe from '../components/ContactMe.astro';
+---
+
+<section class="h-full w-full my-auto flex items-center justify-center">
+   <div class="h-[50%] w-[90%] grid grid-cols-2">
+      <span class="gap-4 flex flex-col place-items-start mt-3">
+         <p class="text-xl">Bienvenido a mi portafolio.</p>
+         <h1 class="text-7xl">
+            <p class="inline text-white/80">Soy</p> Alexis Rojas
+         </h1>
+         <h2 class="text-4xl">Desarrollador Frontend</h2>
+         <p class="text-xl">
+            Me encanta escribir código, creando sitios web creativos y
+            accesibles. Siempre estoy dispuesto a aprender y explorar nuevas
+            tecnologías, escuchar consejos y compartir lo que sé.
+         </p>
+         <aside></aside>
+      </span>
+      <span class="flex items-center justify-center">
+         <div
+            class="h-full w-[40%] bg-gray-500/10 rounded-tr-xl rounded-bl-xl rounded-br-sm rounded-tl-sm border-2 border-blue-950/20"
+         >
+            <aside class="h-full gap-10 w-full flex flex-col justify-evenly">
+               <button
+                  class="hover:bg-gray-500/15 transition-all bg-gray-500/10 grayscale rounded-full w-[80%] p-3 mx-auto"
+                  >Contactar</button
+               >
+               <button
+                  class="hover:bg-gray-500/15 transition-all bg-gray-500/10 grayscale rounded-full w-[80%] p-3 mx-auto"
+                  >Descargar CV</button
+               >
+               <ul class="flex gap-4 m2 items-center justify-center">
+                  <li class="hover:scale-125 transition-all">
+                     <a class="cursor-pointer"> <GmailSvg /> </a>
+                  </li>
+                  <li class="hover:scale-125 transition-all">
+                     <a class="cursor-pointer"><LinkedinSvg /></a>
+                  </li>
+                  <li class="hover:scale-125 transition-all">
+                     <a class="cursor-pointer"><GithubSvg /></a>
+                  </li>
+               </ul>
+            </aside>
+            <!-- <ContactMe /> -->
+         </div>
+         <!-- <Image
+            src="https://dialogopolitico.org/wp-content/uploads/2023/11/Javier-Milei.-Fuente-Cadena-3.jpg"
+            alt="Un pájaro."
+            width="450"
+            height="330"
+         /> -->
+      </span>
+   </div>
+</section>
