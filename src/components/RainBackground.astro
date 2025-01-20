@@ -1,5 +1,9 @@
+---
+
+---
+
 <div id="rain-bkg" class="fixed top-0 -z-10 h-full w-full">
-   <canvas id="rain-canvas" class="blur-sm"></canvas>
+   <canvas id="rain-canvas" class="blur-sm hd-full w-full"></canvas>
 </div>
 
 <script>
@@ -21,6 +25,22 @@
 
    const rainCount = 15000;
    const clouds: Array<THREE.Mesh<any, THREE.MeshLambertMaterial>> = [];
+
+   function onWindowResize(): void {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      // Ajustar el tamaño de la cámara según el nuevo tamaño de la ventana
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+
+      // Cambiar el tamaño del renderizador para coincidir con el canvas
+      renderer.setSize(window.innerWidth, window.innerHeight);
+
+      // Actualiza el canvas para que ocupe todo el espacio
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+   }
 
    function init(): void {
       scene = new THREE.Scene();
@@ -86,7 +106,7 @@
 
       const loader = new THREE.TextureLoader();
       loader.load(
-         'smoke.png',
+         '/smoke.png',
          (texture: THREE.Texture) => {
             cloudGeo = new THREE.PlaneGeometry(500, 500);
             cloudMaterial = new THREE.MeshLambertMaterial({
@@ -117,12 +137,6 @@
             console.error('Error al cargar textura:', error);
          }
       );
-   }
-
-   function onWindowResize(): void {
-      camera.aspect = window.innerWidth / window.innerHeight;
-      camera.updateProjectionMatrix();
-      renderer.setSize(window.innerWidth, window.innerHeight);
    }
 
    function animate(): void {
@@ -162,10 +176,9 @@
             velocities[i] = 0;
          }
       }
-
       rainGeo.attributes.position.needsUpdate = true;
       rain.rotation.y += 0.002;
-
+      /* console.log(clouds); */
       // Renderizar escena y cámara
       renderer.render(scene, camera);
       requestAnimationFrame(animate);

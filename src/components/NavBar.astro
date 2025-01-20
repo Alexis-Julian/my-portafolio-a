@@ -1,26 +1,49 @@
-<nav
-   class="bg-[#0c0c12]/80 h-full w-full rounded-b-lg border-white/30 border-[0.2px] grid grid-cols-2 text-xl"
->
-   <div class="flex items-center uppercase font-bold text-white/80 mx-4 gap-2">
-      <span class="material-symbols-outlined"> light_mode </span>
-      <div class="hover:text-white/90 cursor-pointer transition-all neonText">
-         ALEXIS.DEV
-      </div>
-   </div>
+---
+import LogoComputer from './LogoComputer.astro';
+import LogoHome from './LogoHome.astro';
+
+/* interface Section {
+   section: {
+      home: boolean;
+      proyect: boolean;
+      aboutme: boolean;
+   };
+}
+const { section } = Astro.props; */
+---
+
+<!-- <script is:inline>
+   function handleClick() {
+      console.log('Clic en el cliente');
+   }
+
+   class NavBar extends HTMLElement {
+      connectedCallback() {
+         // Read the message from the data attribute.
+         const sections = JSON.parse(this.dataset.message);
+         sections.home = false;
+      }
+   }
+
+   customElements.define('astro-greet', NavBar);
+</script> -->
+<nav class="text-xl w-[80%] mx-auto h-[60%]">
+   <a class="text-white" href="/prueba/">HOLAAAA</a>
    <ul
       class="flex justify-around items-center uppercase font-bold text-white/80"
    >
       <li class="hover:text-white/90 cursor-pointer transition-all neonText">
-         <p class="border-b">Inicio</p>
-      </li>
-      <li class="hover:text-white/90 cursor-pointer transition-all">
-         Proyectos
-      </li>
-      <li class="hover:text-white/90 cursor-pointer transition-all">
-         Sobre mi
+         <figure></figure>
       </li>
    </ul>
+   <li class="hover:text-white/90 cursor-pointer transition-all">
+      <figure></figure>
+   </li>
 </nav>
+<li class="hover:text-white/90 cursor-pointer transition-all">
+   <figure></figure>
+</li>
+
 <style>
    .neonText {
       color: #ffffffda;

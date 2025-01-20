@@ -1,26 +1,21 @@
 ---
-import background from '@assets/background.svg';
-import astroLogo from '@assets/astro.svg';
-import RainBackground from './RainBackground.astro';
-import NavBar from './NavBar.astro';
-import Home from './Home.astro';
+import Aboutme from '@/sections/Aboutme.astro';
+import Home from '@/sections/Home.astro';
+import Proyect from '@/sections/Proyect.astro';
 ---
 
 <div id="container" class="h-full w-full text-white">
-   <RainBackground />
-   <header class="fixed h-[80px] w-full p-1">
-      <NavBar />
-   </header>
    <!-- Esto no tiene que estar cambiar mas adelante -->
-   <main class="pt-[80px]">
+   <main class="">
       <Home />
+      <Proyect />
+      <Aboutme />
    </main>
    <!-- <main class="main h-full">aasd</main> -->
 </div>
 
 <style>
    #background {
-      position: fixed;
       top: 0;
       left: 0;
       width: 100%;
