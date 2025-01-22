@@ -1,0 +1,193 @@
+---
+import Layout from '@/layouts/Layout.astro';
+---
+
+<Layout>
+   <h1>Hello world</h1>
+</Layout>
+
+<script>
+   import * as THREE from 'three';
+
+   const canvas = document.getElementById('rain-canvas') as HTMLCanvasElement;
+
+   let scene: THREE.Scene;
+   let camera: THREE.PerspectiveCamera;
+   let renderer: THREE.WebGLRenderer;
+   let ambient: THREE.AmbientLight;
+   let directionalLight: THREE.DirectionalLight;
+   let flash: THREE.PointLight;
+
+   let cloudGeo: any;
+   let cloudMaterial: THREE.MeshLambertMaterial;
+   let rainGeo: THREE.BufferGeometry;
+   let rain: THREE.Points<THREE.BufferGeometry, THREE.PointsMaterial>;
+   let rainMaterial: THREE.PointsMaterial;
+
+   const rainCount = 15000;
+   const clouds: Array<THREE.Mesh<any, THREE.MeshLambertMaterial>> = [];
+
+   function onWindowResize(): void {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      // Ajustar el tamaño de la cámara según el nuevo tamaño de la ventana
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+
+      // Cambiar el tamaño del renderizador para coincidir con el canvas
+      renderer.setSize(window.innerWidth, window.innerHeight);
+
+      // Actualiza el canvas para que ocupe todo el espacio
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+   }
+
+   function animate(): void {
+      // Mover nubes
+      clouds.forEach((cloud) => {
+         cloud.rotation.z -= 0.002;
+         //cloud.position.y -= 0.1;
+         if (cloud.position.y < -300) {
+            cloud.position.y = 500;
+         }
+      });
+
+      /*  flash.position.set(Math.random() * 400, 300 + Math.random() * 200, 100); */
+
+      // Efecto de relámpago (flash)
+      if (Math.random() > 0.95 || flash.power > 250) {
+         if (flash.power < 100) {
+            flash.position.set(
+               Math.random() * 400,
+               300 + Math.random() * 200,
+               100
+            );
+         }
+         flash.power = Math.random() * 200 + 100;
+      }
+
+      // Actualizar lluvia
+      const positions = rainGeo.attributes.position.array as Float32Array;
+      const velocities = rainGeo.attributes.velocity.array as Float32Array;
+
+      for (let i = 0; i < rainCount; i++) {
+         velocities[i] += Math.random() * 0.02;
+         positions[i * 3 + 1] -= velocities[i];
+
+         if (positions[i * 3 + 1] < -200) {
+            positions[i * 3 + 1] = 200;
+            velocities[i] = 0;
+         }
+      }
+      rainGeo.attributes.position.needsUpdate = true;
+      rain.rotation.y += 0.002;
+      /* console.log(clouds); */
+      // Renderizar escena y cámara
+      renderer.render(scene, camera);
+      requestAnimationFrame(animate);
+   }
+
+   document.addEventListener('astro:page-load', () => {
+      // Iniciamos la escena
+      (() => {
+         scene = new THREE.Scene();
+
+         camera = new THREE.PerspectiveCamera(
+            60,
+            window.innerWidth / window.innerHeight,
+            1,
+            1000
+         );
+         camera.position.z = 5;
+         camera.rotation.x = 1.16;
+         camera.rotation.y = -0.12;
+         camera.rotation.z = 0.27;
+
+         ambient = new THREE.AmbientLight(0x000000);
+         scene.add(ambient);
+
+         directionalLight = new THREE.DirectionalLight(0x000000);
+         directionalLight.position.set(0, 0, 1);
+         scene.add(directionalLight);
+
+         flash = new THREE.PointLight(0x062d89, 30, 500, 0.8);
+         flash.position.set(200, 300, 100);
+         //scene.add(flash);
+
+         renderer = new THREE.WebGLRenderer({ canvas });
+         scene.fog = new THREE.FogExp2(0x1c1c2a, 0.002);
+         //renderer.setClearColor(scene.fog.color);
+         renderer.setSize(window.innerWidth, window.innerHeight);
+
+         // Geometría y atributos de la lluvia
+         rainGeo = new THREE.BufferGeometry();
+         const positions = new Float32Array(rainCount * 3);
+         const velocities = new Float32Array(rainCount);
+
+         for (let i = 0; i < rainCount; i++) {
+            positions[i * 3] = Math.random() * 400 - 200; // x
+            positions[i * 3 + 1] = Math.random() * 500 - 250; // y
+            positions[i * 3 + 2] = Math.random() * 400 - 200; // z
+            velocities[i] = 0;
+         }
+
+         rainGeo.setAttribute(
+            'position',
+            new THREE.BufferAttribute(positions, 3)
+         );
+         rainGeo.setAttribute(
+            'velocity',
+            new THREE.BufferAttribute(velocities, 1)
+         );
+
+         rainMaterial = new THREE.PointsMaterial({
+            color: 0xaaaaaa,
+            size: 0.3,
+            transparent: true,
+            blending: THREE.AdditiveBlending,
+            sizeAttenuation: true,
+            opacity: 0.6,
+         });
+
+         rain = new THREE.Points(rainGeo, rainMaterial);
+         scene.add(rain);
+
+         window.addEventListener('resize', onWindowResize, false);
+
+         const loader = new THREE.TextureLoader();
+         loader.load(
+            '/smoke.png',
+            (texture: THREE.Texture) => {
+               cloudGeo = new THREE.PlaneGeometry(500, 500);
+               cloudMaterial = new THREE.MeshLambertMaterial({
+                  map: texture,
+                  transparent: true,
+               });
+
+               for (let i = 0; i < 25; i++) {
+                  const cloud = new THREE.Mesh(cloudGeo, cloudMaterial);
+                  cloud.position.set(
+                     Math.random() * 800 - 400,
+                     500,
+                     Math.random() * 500 - 450
+                  );
+                  cloud.rotation.x = 1.16;
+                  cloud.rotation.y = -0.12;
+                  cloud.rotation.z = Math.random() * 2 * Math.PI;
+                  cloud.material.opacity = 0.6;
+                  scene.add(cloud);
+                  clouds.push(cloud);
+               }
+
+               // Inicia animación después de cargar la textura
+               animate();
+            },
+            undefined,
+            (error) => {
+               console.error('Error al cargar textura:', error);
+            }
+         );
+      })();
+   });
+</script>

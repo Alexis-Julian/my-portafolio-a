@@ -5,50 +5,47 @@ import GmailSvg from '../svg/GmailSvg.astro';
 import LinkedinSvg from '../svg/LinkedinSvg.astro';
 import ContactMe from '../components/ContactMe.astro';
 import Button from '@components/Button.astro';
+import LogoDownArrow from '@components/LogoDownArrow.astro';
 ---
 
-<section class="h-full w-full my-auto flex items-center justify-center">
-   <div class="h-[50%] w-[90%] grid grid-cols-2">
-      <span class="gap-4 flex flex-col place-items-start mt-3">
-         <p class="text-xl">Bienvenido a mi portafolio.</p>
-         <h1 class="text-7xl">
-            <p class="inline text-white/80">Soy</p> Alexis Rojas
-         </h1>
-         <h2 class="text-4xl">Desarrollador Frontend</h2>
-         <p class="text-xl">
-            Me encanta escribir código, creando sitios web creativos y
-            accesibles. Siempre estoy dispuesto a aprender y explorar nuevas
-            tecnologías, escuchar consejos y compartir lo que sé.
-         </p>
-         <aside></aside>
+<section class="h-full w-full my-auto grid grid-cols-2 grid-row p-2 relative">
+   <div class="h-full ml-10 mt-10">
+      <span class="place-items-start mt-3 prose prose-invert prose-2xl">
+         <!-- <p class=""></p> -->
+         <span class="h-full">
+            <p>Bienvenido a mi portafolio.</p>
+            <h1 class="">Soy Alexis Rojas Desarrollador Frontend</h1>
+            <p>
+               Me encanta escribir código, creando sitios web creativos y
+               accesibles. Siempre estoy dispuesto a aprender y explorar nuevas
+               tecnologías, escuchar consejos y compartir lo que sé.
+            </p>
+         </span>
       </span>
-      <span class="flex items-center justify-center">
-         <div
-            class="h-full w-[40%] bg-gray-500/10 rounded-tr-xl rounded-bl-xl rounded-br-sm rounded-tl-sm border-2 border-blue-950/20"
-         >
-            <aside class="h-full gap-10 w-full flex flex-col justify-evenly">
-               <Button title={'Contactar'} />
-               <Button title={'Descargar CV'} />
-               <ul class="flex gap-4 m2 items-center justify-center">
-                  <li class="hover:scale-125 transition-all">
-                     <a class="cursor-pointer"> <GmailSvg /> </a>
-                  </li>
-                  <li class="hover:scale-125 transition-all">
-                     <a class="cursor-pointer"><LinkedinSvg /></a>
-                  </li>
-                  <li class="hover:scale-125 transition-all">
-                     <a class="cursor-pointer"><GithubSvg /></a>
-                  </li>
-               </ul>
-            </aside>
-            <!-- <ContactMe /> -->
-         </div>
-         <!-- <Image
-            src="https://dialogopolitico.org/wp-content/uploads/2023/11/Javier-Milei.-Fuente-Cadena-3.jpg"
-            alt="Un pájaro."
-            width="450"
-            height="330"
-         /> -->
-      </span>
+      <ul class="flex gap-4 m2">
+         <li class="hover:scale-125 transition-all">
+            <a class="cursor-pointer"> <GmailSvg /> </a>
+         </li>
+         <li class="hover:scale-125 transition-all">
+            <a class="cursor-pointer"><LinkedinSvg /></a>
+         </li>
+         <li class="hover:scale-125 transitio -all">
+            <a class="cursor-pointer"><GithubSvg /></a>
+         </li>
+      </ul>
    </div>
+   <span class="mt-10">
+      <div class="flex items-center w-full justify-center">
+         <img src="/code.png" class="h-[500px] w-[500px]" />
+      </div>
+   </span>
+   <span class="absolute bottom-0 w-[100%]"
+      ><div
+         class="w-[90%] top-4 animate-pulse mx-auto flex items-center justify-center"
+      >
+         <button class="cursor-pointer">
+            <LogoDownArrow height={120} />
+         </button>
+      </div>
+   </span>
 </section>
